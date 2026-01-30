@@ -68,6 +68,7 @@ import {
   SortableTerminalTab,
   NewSessionView,
 } from "@/components/session"
+import { SubagentCalls } from "@/components/session/session-agents"
 import { navMark, navParams } from "@/utils/perf"
 import { same } from "@/utils/same"
 
@@ -2857,7 +2858,7 @@ export default function Page() {
                       </Tabs.Trigger>
                     </Tabs.List>
                     <Tabs.Content value={agentTab} class="bg-background-base px-3 py-0">
-                      <p>{"Hello!"}</p>
+                      <SubagentCalls sessionID={params.id} />
                     </Tabs.Content>
                     <Tabs.Content value="changes" class="bg-background-base px-3 py-0">
                       <Switch>
