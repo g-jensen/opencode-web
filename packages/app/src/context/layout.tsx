@@ -105,7 +105,7 @@ export const { use: useLayout, provider: LayoutProvider } = createSimpleContext(
         fileTree: {
           opened: true,
           width: 344,
-          tab: "changes" as "changes" | "all",
+          tab: "agents" as "agents" | "changes" | "all",
         },
         session: {
           width: 600,
@@ -477,8 +477,8 @@ export const { use: useLayout, provider: LayoutProvider } = createSimpleContext(
       fileTree: {
         opened: createMemo(() => store.fileTree?.opened ?? true),
         width: createMemo(() => store.fileTree?.width ?? 344),
-        tab: createMemo(() => store.fileTree?.tab ?? "changes"),
-        setTab(tab: "changes" | "all") {
+        tab: createMemo(() => store.fileTree?.tab ?? "agents"),
+        setTab(tab: "agents" | "changes" | "all") {
           if (!store.fileTree) {
             setStore("fileTree", { opened: true, width: 344, tab })
             return

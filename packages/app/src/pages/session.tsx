@@ -1107,7 +1107,9 @@ export default function Page() {
   const mobileChanges = createMemo(() => !isDesktop() && store.mobileTab === "changes")
 
   const fileTreeTab = () => layout.fileTree.tab()
-  const setFileTreeTab = (value: "changes" | "all") => layout.fileTree.setTab(value)
+  const agentTab = "agents"
+  const isAgentTabOpen = () => fileTreeTab() === agentTab
+  const setFileTreeTab = (value: typeof agentTab | "changes" | "all") => layout.fileTree.setTab(value)
 
   const [tree, setTree] = createStore({
     reviewScroll: undefined as HTMLDivElement | undefined,
@@ -1181,7 +1183,7 @@ export default function Page() {
   )
 
   const setFileTreeTabValue = (value: string) => {
-    if (value !== "changes" && value !== "all") return
+    if (value !== agentTab && value !== "changes" && value !== "all") return
     setFileTreeTab(value)
   }
 
@@ -2156,7 +2158,7 @@ export default function Page() {
               direction="horizontal"
               size={layout.session.width()}
               min={450}
-              max={window.innerWidth * 0.45}
+              max={window.innerWidth * 0.60}
               onResize={layout.session.resize}
             />
           </Show>
@@ -2169,6 +2171,7 @@ export default function Page() {
             aria-label={language.t("session.panel.reviewAndFiles")}
             class="relative flex-1 min-w-0 h-full border-l border-border-weak-base flex"
           >
+            <Show when={!isAgentTabOpen()}>
             <div class="flex-1 min-w-0 h-full">
               <Show
                 when={fileTreeTab() === "changes"}
@@ -2825,6 +2828,7 @@ export default function Page() {
                 {reviewPanel()}
               </Show>
             </div>
+            </Show>
 
             <Show when={layout.fileTree.opened()}>
               <div
@@ -2841,6 +2845,9 @@ export default function Page() {
                     data-scope="filetree"
                   >
                     <Tabs.List>
+                      <Tabs.Trigger value={agentTab} class="flex-1" classes={{ button: "w-full" }}>
+                        {"Agents"}
+                      </Tabs.Trigger>
                       <Tabs.Trigger value="changes" class="flex-1" classes={{ button: "w-full" }}>
                         {reviewCount()}{" "}
                         {language.t(reviewCount() === 1 ? "session.review.change.one" : "session.review.change.other")}
@@ -2849,6 +2856,9 @@ export default function Page() {
                         {language.t("session.files.all")}
                       </Tabs.Trigger>
                     </Tabs.List>
+                    <Tabs.Content value={agentTab} class="bg-background-base px-3 py-0">
+                      <p>{"Hello!"}</p>
+                    </Tabs.Content>
                     <Tabs.Content value="changes" class="bg-background-base px-3 py-0">
                       <Switch>
                         <Match when={hasReview()}>
@@ -2888,6 +2898,8 @@ export default function Page() {
                     </Tabs.Content>
                   </Tabs>
                 </div>
+                <Show
+                  when={!isAgentTabOpen()}>
                 <ResizeHandle
                   direction="horizontal"
                   edge="start"
@@ -2898,6 +2910,7 @@ export default function Page() {
                   onResize={layout.fileTree.resize}
                   onCollapse={layout.fileTree.close}
                 />
+                </Show>
               </div>
             </Show>
           </aside>
