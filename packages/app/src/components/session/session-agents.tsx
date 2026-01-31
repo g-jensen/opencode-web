@@ -96,7 +96,7 @@ function TreeNode(props: { node: SessionNode; depth: number; currentID: string |
         </span>
       </A>
       <Show when={hasChildren()}>
-        <For each={props.node.children}>
+        <For each={props.node.children.sort((a,b) => a.session.time.created - b.session.time.created)}>
           {(child) => <TreeNode node={child} depth={props.depth + 1} currentID={props.currentID} dir={props.dir} />}
         </For>
       </Show>
